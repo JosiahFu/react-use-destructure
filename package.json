@@ -1,0 +1,54 @@
+{
+  "name": "@tater-archives/react-use-destructure",
+  "version": "1.0.0",
+  "description": "React hook to store a state in localStorage",
+  "type": "module",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JosiahFu/react-use-destructure"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "localstorage",
+    "utility"
+  ],
+  "author": "Josiah Fu josiahfu@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.4",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/react": "^18.2.20",
+    "eslint": "^8.47.0",
+    "eslint-config-react-app": "^7.0.1",
+    "rollup": "^3.28.0",
+    "rollup-plugin-dts": "^5.3.1",
+    "tslib": "^2.6.1",
+    "typescript": "^5.1.6"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ],
+    "ignorePatterns": [
+      "*.config.js",
+      "dist"
+    ]
+  }
+}
