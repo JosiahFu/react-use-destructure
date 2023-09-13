@@ -10,6 +10,18 @@ function mapToObject<T extends object>(keys: (keyof T)[], callback: <K extends k
     return result;
 }
 
+/**
+ * Destructures an object state into one state pair for each property.
+ *
+ * @param object The object state
+ * @param setObject The setter for the object state
+ * @param keys If the object may gain properties post-mount, you must specify all
+ * the possible keys/property names to allow destructuring to work properly. If
+ * the properties available do not change, you can omit this and it will be
+ * created automatically.
+ * @returns An object with a state pair for each property in the original
+ * object. See the docs for example code.
+ */
 function useDestructure<T extends object>(
     object: T,
     setObject: Dispatch<SetStateAction<T>>,
@@ -29,6 +41,11 @@ function useDestructure<T extends object>(
     return states;
 }
 
+/**
+ * Identical to {@link useDestructure} but is optimized with Refs so that the
+ * setters never change. This causes some overhead, so only use if re-rendering
+ * setters is expensive.
+ */
 function useOptimizedDestructure<T extends object>(
     object: T,
     setObject: Dispatch<SetStateAction<T>>,
