@@ -24,7 +24,7 @@ function mapToObject<T extends object>(keys: (keyof T)[], callback: <K extends k
  */
 function useDestructure<T extends object>(
     object: T,
-    setObject: Dispatch<SetStateAction<T>>,
+    setObject: (object: T) => void,
     keys: (keyof Required<T>)[] = Object.keys(object) as unknown as (keyof T)[]
 ) {
     const closedKeys = useRef(keys).current;
@@ -48,7 +48,7 @@ function useDestructure<T extends object>(
  */
 function useOptimizedDestructure<T extends object>(
     object: T,
-    setObject: Dispatch<SetStateAction<T>>,
+    setObject: (object: T) => void,
     keys: (keyof Required<T>)[] = Object.keys(object) as unknown as (keyof T)[]
 ) {
     type PropertySetters<T> = { [K in keyof Required<T>]: Dispatch<SetStateAction<Required<T>[K]>> };
