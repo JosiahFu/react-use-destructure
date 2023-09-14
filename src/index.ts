@@ -1,6 +1,11 @@
 import { Dispatch, SetStateAction, useMemo, useRef } from 'react';
 
-type DestructuredState<T> = { [K in keyof Required<T>]: [T[K], Dispatch<SetStateAction<Required<T>[K]>>] };
+type DestructuredState<T> = { [K in keyof T]: [T[K], Dispatch<SetStateAction<T[K]>>] };
+type DestructuredOptionalState<T> = { [K in keyof Required<T>]: [T[K], Dispatch<SetStateAction<Required<T>[K]>>] };
+
+type RequiredFieldsOnly<T> = {
+    [K in keyof T as T[K] extends Required<T>[K] ? K : never]: T[K]
+}
 
 function mapToObject<T extends object>(keys: (keyof T)[], callback: <K extends keyof T>(key: K, index: number, array: (keyof T)[]) => T[K]) {
     const result = {} as T;
@@ -24,13 +29,22 @@ function mapToObject<T extends object>(keys: (keyof T)[], callback: <K extends k
  */
 function useDestructure<T extends object>(
     object: T,
+    setObject: (object: T) => void
+): DestructuredState<RequiredFieldsOnly<T>>;
+function useDestructure<T extends object>(
+    object: T,
+    setObject: (object: T) => void,
+    keys: (keyof Required<T>)[]
+): DestructuredOptionalState<T>;
+function useDestructure<T extends object>(
+    object: T,
     setObject: (object: T) => void,
     keys: (keyof Required<T>)[] = Object.keys(object) as unknown as (keyof T)[]
 ) {
     const closedKeys = useRef(keys).current;
 
     const states = useMemo(() => (
-        mapToObject<DestructuredState<T>>(closedKeys, key => (
+        mapToObject<DestructuredOptionalState<T>>(closedKeys, key => (
             [object[key], value => {
                 const newValue = (typeof value === 'function') ? (value as Function)(object[key]) : value;
                 setObject({ ...object, [key]: newValue });
@@ -46,6 +60,15 @@ function useDestructure<T extends object>(
  * setters never change. This causes some overhead, so only use if re-rendering
  * setters is expensive.
  */
+function useOptimizedDestructure<T extends object>(
+    object: T,
+    setObject: (object: T) => void
+): DestructuredState<RequiredFieldsOnly<T>>;
+function useOptimizedDestructure<T extends object>(
+    object: T,
+    setObject: (object: T) => void,
+    keys: (keyof Required<T>)[]
+): DestructuredOptionalState<T>;
 function useOptimizedDestructure<T extends object>(
     object: T,
     setObject: (object: T) => void,
@@ -74,7 +97,7 @@ function useOptimizedDestructure<T extends object>(
 
     // Build the output
     const states = useMemo(() => (
-        mapToObject<DestructuredState<T>>(closedKeys, key => (
+        mapToObject<DestructuredOptionalState<T>>(closedKeys, key => (
             [object[key], setterWrappers.current[key as keyof typeof setterWrappers.current]]
         ))
     ), [closedKeys, object]);

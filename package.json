@@ -1,7 +1,7 @@
 {
   "name": "@tater-archives/react-use-destructure",
   "version": "1.0.0",
-  "description": "React hook to store a state in localStorage",
+  "description": "React hook to split an object state into multiple states",
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -18,7 +18,8 @@
   "keywords": [
     "react",
     "hooks",
-    "localstorage",
+    "state",
+    "object",
     "utility"
   ],
   "author": "Josiah Fu josiahfu@gmail.com",
