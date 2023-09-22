@@ -89,18 +89,19 @@ function useOptimizedDestructure<T extends object>(
     ));
 
     // Set the wrappers
-    const setterWrappers = useRef(() => (
+    const setterWrappers = useMemo(() =>
         mapToObject<PropertySetters<T>>(closedKeys, key => (
             value => settersRef.current![key](value)
-        ))
-    ));
+        )),
+        [closedKeys]
+    );
 
     // Build the output
     const states = useMemo(() => (
         mapToObject<DestructuredOptionalState<T>>(closedKeys, key => (
-            [object[key], setterWrappers.current[key as keyof typeof setterWrappers.current]]
+            [object[key], setterWrappers[key]]
         ))
-    ), [closedKeys, object]);
+    ), [closedKeys, object, setterWrappers]);
 
     return states;
 }
