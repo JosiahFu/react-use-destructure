@@ -1,6 +1,6 @@
 {
   "name": "@tater-archives/react-use-destructure",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "React hook to split an object state into multiple states",
   "type": "module",
   "main": "dist/cjs/index.js",
